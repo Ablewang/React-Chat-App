@@ -1,5 +1,6 @@
 import React,{Component} from 'react'
-import UserInfo from '../components/UserInfo'
+// import UserInfo from '../components/UserInfo'
+import UserInfo from './UserInfo'
 import ContactList from '../components/ContactList'
 import ChatForm from './ChatForm'
 import { Layout, Menu, Icon } from 'antd';
@@ -16,11 +17,18 @@ class HomePage extends Component{
     		collapsed: false,
 		}
 	}
-  toggle = () => {
-    this.setState({
-      collapsed: !this.state.collapsed,
-    });
-  }
+
+	componentDidMount(){
+		console.log(this.props)
+	}
+	componentDidUpdate(){
+		console.log(this.props)
+	}
+	toggle = () => {
+		this.setState({
+			collapsed: !this.state.collapsed,
+		});
+	}
 	render(){
 		return(
 	      <Layout className='g-homepage'>
@@ -31,7 +39,7 @@ class HomePage extends Component{
 	          className='g-sider'
 	          width='280'
 	        >
-	          <UserInfo loginInfo={this.state.loginInfo}/>
+	          <UserInfo />
 	          <Menu mode="inline" 
 	          		defaultSelectedKeys={['contact']} 
 			        defaultOpenKeys={['contact']}
@@ -65,7 +73,7 @@ class HomePage extends Component{
 
 const getInitData=()=>{
 	let contactList = [];
-	let loginInfo = {
+	let loginUser = {
 		userid:-1,
 		username:'超级管理员',
 		online:true,
@@ -91,6 +99,6 @@ const getInitData=()=>{
 		records.push(temp);
 		date = temp.date;
 	}
-	return {contactList,loginInfo,records}
+	return {contactList,loginUser,records}
 }
 export default HomePage

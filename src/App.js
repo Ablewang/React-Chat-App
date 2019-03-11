@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import {BrowserRouter,Route} from 'react-router-dom'
-import Login from './components/Login'
-import HomePage from './containers/HomePage'
 import common from './common'
+import Login from './containers/Login'
+import HomePage from './containers/HomePage'
 import 'antd/dist/antd.css'
 import './App.css'
 

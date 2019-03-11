@@ -2,6 +2,44 @@
   height: 100%;
   min-height: 280,
 }
+.g-login{
+  position: fixed;
+  top:0;
+  left:0;
+  height:100%;
+  width: 100%;
+  background: rgba(0,0,0,.5);
+  z-index: 9999;
+}
+.g-login .login-wrapper{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    width: 400px;
+    min-height: 240px;
+    border: 1px solid #f8f8f8;
+    background: #fff;
+}
+.g-login .ant-layout-header{
+    height: 50px;
+    line-height: 50px;
+    background: #1890ff;
+    color: #fff;
+    margin-bottom:20px;
+}
+.g-login .login-form{
+  max-width: 300px;
+  text-align: center;
+  margin:0 auto;
+}
+.g-login .login-form input{
+  /*color: rgba(0,0,0,.25)*/
+}
+.g-login .login-form .login-form-button{
+  margin-right:20px;
+}
+
 .g-sider{
   background: #f8f8f8;
   overflow: hidden;

@@ -1,29 +1,46 @@
 import React,{Component} from 'react'
+import {PropTypes} from 'prop-types'
+import {connect} from 'react-redux'
+import {withRouter} from "react-router-dom"
 import UserInfo from '../components/UserInfo'
-import photo from '../resource/images/photo.png'
-import underlinePhoto from '../resource/images/photo-underline.png'
+import {userLogout} from '../reducers/reducer'
 
-const { Meta } = Card;
-const login = <Icon type="login" title='登录' /> //login
-const logout = <Icon type="logout" title='退出' style={{color:'red'}} /> //logout
-const add = <Icon type="plus" title='新增联系人' />
-const otherAction = <Icon type="ellipsis" title='其他' />
+class UserInfoContainer extends Component{
+	static propTypes={
+		router:PropTypes.object
+	}
+	handleLoginClick(){
+		this.props.history.push({pathname: '/login', state: '/'})
+	}
+	handleLogoutClick(){
+		this.props.onLogout();
+	}
+	handleAddContactClick(){
+		console.log('AddContact')
+	}
 
-class UserInfo extends Component{
 	render(){
-		const userInfo = this.props.loginInfo||{};
 		return(
-			 <Card
-			 	className='g-user-card'
-			    actions={userInfo.online ? [logout, add, otherAction]:[login]}
-			  >
-			    <Meta
-			      avatar={<Avatar src={userInfo.online  ? photo : underlinePhoto} />}
-			      title={userInfo.username||'请先登录'}
-			    />
-			  </Card>
+			 <UserInfo 
+			 	loginUser={this.props.loginUser}
+			 	onLogin={this.handleLoginClick.bind(this)}
+			 	onLogout={this.handleLogoutClick.bind(this)}
+			 	AddContact={this.handleAddContactClick.bind(this)}
+			 />
 		)
 	}
 }
-
-export default class UserInfo 
+const mapStateToProps=(state)=>{
+	return {
+		loginUser:state.loginUser
+	}
+}
+const mapDispatchToProps=(dispatch)=>{
+	return {
+		onLogout:()=>{
+			dispatch(userLogout())
+		}
+	}
+}
+UserInfoContainer = connect(mapStateToProps,mapDispatchToProps)(UserInfoContainer)
+export default withRouter(UserInfoContainer )
