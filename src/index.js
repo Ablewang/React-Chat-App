@@ -4,8 +4,12 @@ import {createStore} from 'redux';
 import {Provider} from 'react-redux';
 import './index.css';
 import App from './App';
-import reducer from './reducers/reducer'
-const store = createStore(reducer)
+import initData from './dataHelper'
+import reducerCreator from './reducers/reducer'
+import  data from './resource/data/data.json'
+initData(data)
+console.log(data)
+const store = createStore(reducerCreator(data))
 ReactDOM.render(<Provider store={store}>
 					<App />
 				</Provider>, 

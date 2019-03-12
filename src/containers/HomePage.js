@@ -1,28 +1,57 @@
 import React,{Component} from 'react'
+import {connect} from 'react-redux'
+import {PropTypes} from 'prop-types'
 // import UserInfo from '../components/UserInfo'
 import UserInfo from './UserInfo'
-import ContactList from '../components/ContactList'
+import ContactList from './ContactList'
 import ChatForm from './ChatForm'
 import { Layout, Menu, Icon } from 'antd';
+import {userLogin,initContact} from '../reducers/reducer'
+import {selectUser,selectContact} from '../dataHelper'
 
 const { Header, Sider, Content } = Layout;
 
 const SubMenu = Menu.SubMenu;
 
 class HomePage extends Component{
+	static propsType={
+		loginUser:PropTypes.object,
+		contactList:PropTypes.array,
+	}
 	constructor(){
 		super();
 		this.state={
-			data:getInitData(),
+			currentUser:null,
     		collapsed: false,
 		}
 	}
-
+	componentWillMount(){
+		this._initInfo();
+		console.log('componentWillMount')
+	}
 	componentDidMount(){
-		console.log(this.props)
+		console.log('componentDidMount')
 	}
 	componentDidUpdate(){
-		console.log(this.props)
+		console.log('componentDidUpdate')
+	}
+	_initInfo=()=>{
+		let userid = this._getLocalStorage('userid');
+		if (userid && userid.length) {
+			let user = selectUser('id',userid);
+			if (user) {
+				this.props.onInitContact(selectContact(userid))
+				this.props.onLogin(user);
+			}else{
+				this._removeLocalStorage('usrid')
+			}
+		}
+	}
+	_getLocalStorage=(name)=>{
+		return localStorage.getItem(name) 
+	}
+	_removeLocalStorage=(name)=>{
+		return localStorage.removeItem(name) 
 	}
 	toggle = () => {
 		this.setState({
@@ -49,7 +78,7 @@ class HomePage extends Component{
 	              key="contact"
 	              title={<span><Icon type="user" /><span>联系人列表</span></span>}
 	            >
-	            <ContactList list={this.state.data.contactList}/>
+	            <ContactList />
 	            </SubMenu>
 	          </Menu>
 	        </Sider>
@@ -63,7 +92,7 @@ class HomePage extends Component{
 	            <span className='current-select'>用户1</span>
 	          </Header>
 	          <Content className='c-content'>
-	            <ChatForm records={this.state.data.records}/>
+	            <ChatForm records={null}/>
 	          </Content>
 	        </Layout>
 	      </Layout>
@@ -72,33 +101,72 @@ class HomePage extends Component{
 }
 
 const getInitData=()=>{
-	let contactList = [];
+	let userRelation = [];
+	let userList = [];
 	let loginUser = {
 		userid:-1,
 		username:'超级管理员',
 		online:true,
 	};
 	let records = [];
-	const random = Math.random()*50;
-	for (var i = 0; i < random; i++) {
-		contactList.push({
+	const random = parseInt(Math.random()*50);
+	for (let i = 0; i < random; i++) {
+		userList.push({
 			id:i,
 			username:'user' + i,
+			password:'user' + i,
 			online:Math.random() > 0.4,
-			lastMessasge:Math.random() > 0.2 ? '最后的轻语' : ''
+			lastMessasge:''
 		})
 	}
 	const content = ['啊哈哈哈哈','呵呵呵呵呵呵','内容内容内容内容内容','啊asdf内容内容内容内容内容哈哈内容内容内容内容内容哈哈','呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵','内容内容内容内容内容','ReactReactReactReact 内容内容内容内容内容']
-	var date = +new Date();
-	for (var i = 0; i < random; i++) {
+	let date = +new Date();
+	for (let i = 0; i < random * 10; i++) {
+		let f = parseInt(Math.random() * random);
 		let temp = {
-			maine:Math.random() > 0.4,
+			id:i,
+			userId:f,
+			contactId:getToId(f,random),
+			date:date + random* 1000
+		};
+		userRelation.push(temp);
+		date = temp.date;
+	}
+	date = +new Date();
+	for (let i = 0; i < random * 50; i++) {
+		let f = parseInt(Math.random() * random);
+		let temp = {
+			id:i,
+			from:f,
+			to:getToId(f,random),
 			content:content[parseInt(Math.random()*content.length)],
 			date:date + random* 1000
 		};
 		records.push(temp);
 		date = temp.date;
 	}
-	return {contactList,loginUser,records}
+	return {userList,userRelation,loginUser,records}
 }
-export default HomePage
+
+const getToId=(fromId,max)=>{
+	let t = parseInt(Math.random() * max);
+	return t === fromId ? getToId(fromId,max) : t;
+}
+
+const mapStateToProps = (state)=>{
+	return{
+		loginUser:state.loginUser,
+		contactList:state.contactList
+	}
+}
+const mapDispatchToProps=(dispatch)=>{
+	return{
+		onLogin:(user)=>{
+			dispatch(userLogin(user))
+		},
+		onInitContact:(contactList)=>{
+			dispatch(initContact(contactList))
+		}
+	}
+}
+export default connect(mapStateToProps,mapDispatchToProps)(HomePage)

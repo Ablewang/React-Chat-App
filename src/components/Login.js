@@ -18,7 +18,7 @@ class Login extends Component{
 	      }
 	    })
 	}
-	handleCancelLogout=()=>{
+	handleCancelLogint=()=>{
 		this.props.onCancelLogin && this.props.onCancelLogin();
 	}
 	render(){
@@ -47,7 +47,7 @@ class Login extends Component{
 					       		<Button type='primary' htmlType='submit' className='login-form-button'>
 					       		登录 / 注册
 					       		</Button>
-					       		<Button className='login-form-button' onClick={this.handleCancel}>
+					       		<Button className='login-form-button' onClick={this.handleCancelLogint}>
 					       		取消
 					       		</Button>
 					       	</Form.Item>

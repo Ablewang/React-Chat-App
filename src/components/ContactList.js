@@ -1,7 +1,7 @@
 import React,{Component} from 'react'
-import {
-  List, message, Avatar, Spin,
-} from 'antd';
+import {PropTypes} from 'prop-types'
+import {connect} from 'react-redux'
+import {List, message, Avatar, Spin,} from 'antd';
 import photo from '../resource/images/photo.png'
 import underlinePhoto from '../resource/images/photo-underline.png'
 
@@ -107,21 +107,23 @@ export default class ContactList extends Component{
 		this.setState({
 			currentSelectId:id
 		})
+    this.props.onSelect && this.props.onSelect(id);
 	}
 	render(){
-		const list = this.props.list;
+		const list = this.props.contactList;
 		return(
           <List
           	ref='list'
           	className='g-contact-list'
             dataSource={list}
             renderItem={item => (
-              <List.Item key={item.id} className={'contact-item' + (item.id === this.state.currentSelectId ? ' selected' : '')}>
+              <List.Item  key={item.id} 
+                          className={'contact-item' + (item.id === this.state.currentSelectId ? ' selected' : '')}
+                          onClick={this.handleSelectContact.bind(this,item.id)}>
                 <List.Item.Meta
                   avatar={<Avatar src={item.online?photo:underlinePhoto}/>}
                   title={item.username}
                   description={item.lastMessasge}
-                  onClick={this.handleSelectContact.bind(this,item.id)}
                 />
                 <div>{item.online?'在线':'离线'}</div>
               </List.Item>
