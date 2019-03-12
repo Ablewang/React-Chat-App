@@ -3,7 +3,7 @@ import {connect} from 'react-redux'
 import {PropTypes} from 'prop-types'
 import Login from '../components/Login'
 import {userLogin,userRegister,initContact} from '../reducers/reducer'
-import {selectUser,createUser,selectContact} from '../dataHelper'
+import {searchUser,createUser,searchContact} from '../dataHelper'
 
 class LoginContiner extends Component{
 	static propTypes={
@@ -13,7 +13,7 @@ class LoginContiner extends Component{
 		initContact:PropTypes.func,
 	}
 	handleLogin=(user)=>{
-		const select = selectUser('username',user.username);
+		const select = searchUser('username',user.username);
 		if (select) {
 			if (select.password != user.password) {
 				return alert('密码错误');
@@ -24,7 +24,7 @@ class LoginContiner extends Component{
 			this.props.onRegister(user);
 		}
 		this.props.onLogin({...user,online:true})
-		this.props.initContact(selectContact(user.id))
+		this.props.initContact(searchContact(user.id))
 		this.__setLocalStorage('userid',user.id)
 		this.props.history.push({pathname:'/',state:true})
 	}

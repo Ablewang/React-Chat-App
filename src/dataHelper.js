@@ -3,7 +3,7 @@ export default (initData)=>{
 	Object.assign(data,initData);
 	return data;
 }
-export const selectUser=(prop,value)=>{
+export const searchUser=(prop,value)=>{
 	return data.userList.find((user)=>user[prop]==value);
 }
 export const createUser=(user)=>{
@@ -16,7 +16,7 @@ export const createUser=(user)=>{
 	return user;
 }
 
-export const selectContact=(userid)=>{
+export const searchContact=(userid)=>{
 	let relation = data.userRelation.reduce((res,cur)=>{
 		cur.userId == userid && res.push(cur.contactId)
 		return res;
@@ -26,8 +26,25 @@ export const selectContact=(userid)=>{
 	})
 }
 
-export const selectRecords=(userid)=>{
+export const searchRecords=(userid,contactid)=>{
 	return data.records.filter((itm)=>{
-		return itm.from == userid || itm.to === userid
+		return (itm.from == userid && itm.to == contactid) 
+			|| (itm.to == userid && itm.from == contactid) 
 	})
+}
+
+export const createRecord = (f,t,content)=>{
+	let max = -1;
+	data.records.forEach((itm)=>{
+		max = itm.id > max ? itm.id : max
+	})
+	let record = {
+		id:++max,
+		from:f,
+		to:t,
+		content:content,
+		date:+new Date()
+	}
+	data.records.push(record)
+	return record;
 }

@@ -7,7 +7,7 @@ import ContactList from './ContactList'
 import ChatForm from './ChatForm'
 import { Layout, Menu, Icon } from 'antd';
 import {userLogin,initContact} from '../reducers/reducer'
-import {selectUser,selectContact} from '../dataHelper'
+import {searchUser,searchContact} from '../dataHelper'
 
 const { Header, Sider, Content } = Layout;
 
@@ -15,10 +15,13 @@ const SubMenu = Menu.SubMenu;
 
 class HomePage extends Component{
 	static propsType={
+		currentContact:PropTypes.object,
 		loginUser:PropTypes.object,
 		contactList:PropTypes.array,
 	}
 	constructor(){
+		// const temp = JSON.stringify(getInitData());
+		// console.log(JSON.stringify(temp))
 		super();
 		this.state={
 			currentUser:null,
@@ -38,9 +41,9 @@ class HomePage extends Component{
 	_initInfo=()=>{
 		let userid = this._getLocalStorage('userid');
 		if (userid && userid.length) {
-			let user = selectUser('id',userid);
+			let user = searchUser('id',userid);
 			if (user) {
-				this.props.onInitContact(selectContact(userid))
+				this.props.onInitContact(searchContact(userid))
 				this.props.onLogin(user);
 			}else{
 				this._removeLocalStorage('usrid')
@@ -89,7 +92,7 @@ class HomePage extends Component{
 	              type={this.state.collapsed ? 'menu-unfold' : 'menu-fold'}
 	              onClick={this.toggle}
 	            />
-	            <span className='current-select'>用户1</span>
+	            <span className='current-select'>{!this.props.currentContact?'':this.props.currentContact.username}</span>
 	          </Header>
 	          <Content className='c-content'>
 	            <ChatForm records={null}/>
@@ -156,7 +159,8 @@ const getToId=(fromId,max)=>{
 const mapStateToProps = (state)=>{
 	return{
 		loginUser:state.loginUser,
-		contactList:state.contactList
+		contactList:state.contactList,
+		currentContact:state.currentContact
 	}
 }
 const mapDispatchToProps=(dispatch)=>{

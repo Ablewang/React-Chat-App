@@ -99,18 +99,13 @@ class InfiniteListExample extends React.Component {
 export default class ContactList extends Component{
 	constructor(){
 		super();
-		this.state={
-			currentSelectId:-1
-		}
 	}
 	handleSelectContact=(id)=>{
-		this.setState({
-			currentSelectId:id
-		})
     this.props.onSelect && this.props.onSelect(id);
 	}
 	render(){
-		const list = this.props.contactList;
+    const current = this.props.current || {}
+		const list = this.props.contactList || []
 		return(
           <List
           	ref='list'
@@ -118,7 +113,7 @@ export default class ContactList extends Component{
             dataSource={list}
             renderItem={item => (
               <List.Item  key={item.id} 
-                          className={'contact-item' + (item.id === this.state.currentSelectId ? ' selected' : '')}
+                          className={'contact-item' + (item.id === current.id ? ' selected' : '')}
                           onClick={this.handleSelectContact.bind(this,item.id)}>
                 <List.Item.Meta
                   avatar={<Avatar src={item.online?photo:underlinePhoto}/>}
@@ -129,11 +124,6 @@ export default class ContactList extends Component{
               </List.Item>
             )}
           >
-            {this.state.loading && this.state.hasMore && (
-              <div className="demo-loading-container">
-                <Spin />
-              </div>
-            )}
           </List>
 		)
 	}
