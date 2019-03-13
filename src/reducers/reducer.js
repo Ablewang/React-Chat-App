@@ -7,55 +7,67 @@ const INIT_CONTACT = 'INIT_CONTACT'	//初始化联系人
 const SELECT_CONTACT = 'SELECT_CONTACT'	//选择联系人
 const ADD_CONTACT = 'ADD_CONTACT'	//新增联系人
 const DELETE_CONTACT = 'DELETE_CONTACT'	//删除联系人
+const ADD_STRANGER = 'ADD_STRANGER' //新增陌生人
 
 const INIT_RECORD = 'INIT_RECORDS'	//初始化聊天记录
 const ADD_RECORD = 'ADD_RECORD'	//新增聊天记录
 const DELETE_RECORD = 'DELETE_RECORD'	//删除聊天记录
 const DELETE_RECORDLIST = 'DELETE_RECORDLIST'	//批量删除聊天记录
 
-export default (initData)=>{
-	return (state,action)=>{
-		if(!state){
+export default (initData) => {
+	return (state, action) => {
+		if (!state) {
 			return {
-					loginUser:null,
-					userList:initData.userList||[],
-					contactList:[],
-					strangerList:[],
-					currentContact:null,
-					records:[]
-				}
+				loginUser: null,
+				userList: initData.userList || [],
+				contactList: [],
+				strangerList: [],
+				currentContact: null,
+				records: []
+			}
 		}
-		switch(action.type){
+		switch (action.type) {
 			case INIT_USERS:
-				return Object.assign({...state},{loginUser:action.user,userList:action.userList});
+				return Object.assign({ ...state }, { loginUser: action.user, userList: action.userList });
 			case USER_LOGIN:
-				let u = {...action.user,online:true}
-				let uList = state.userList.map((item)=>{
+				let u = { ...action.user, online: true }
+				let uList = state.userList.map((item) => {
 					return item.id == u.id ? u : item
 				})
-				return Object.assign({...state},{loginUser:u,userList:uList});
+				return Object.assign({ ...state }, { loginUser: u, userList: uList });
 			case USER_LOGOUT:
-				return Object.assign({...state},{loginUser:null,contactList:[],strangerList:[],records:[]});
+				return Object.assign({ ...state }, { loginUser: null, contactList: [], strangerList: [], records: [] });
 			case USER_REGISTER:
-				return Object.assign({...state},{loginUser:action.user,userList:[...state.userList,action.user]});
+				return Object.assign({ ...state }, { loginUser: action.user, userList: [...state.userList, action.user] });
 			case INIT_CONTACT:
-				return Object.assign({...state},{contactList:action.contactList.contact,
-												 strangerList:action.contactList.stranger});
+				return Object.assign({ ...state }, {
+					contactList: action.contactList.contact,
+					strangerList: action.contactList.stranger
+				});
 			case ADD_CONTACT:
-				return Object.assign({...state},{contactList:[state.contactList,action.contact]});
+				return Object.assign({ ...state }, { contactList: [...state.contactList, action.contact] });
+			case DELETE_CONTACT:
+				let assignObj = {}
+				let contact = null
+				let list = (action.contact.isStranger ? state.strangerList : state.contactList).filter((itm) => itm.id != action.contact.id)
+				let pname = action.contact.isStranger ? 'strangerList' : 'contactList'
+				assignObj[pname] = list
+				return Object.assign({ ...state }, assignObj);
+			case ADD_STRANGER:
+				return Object.assign({ ...state }, { strangerList: [...state.strangerList,action.contact] })
 			case SELECT_CONTACT:
-				return Object.assign({...state},{currentContact:action.contact})
+				return Object.assign({ ...state }, { currentContact: action.contact })
 			case INIT_RECORD:
-				return Object.assign({...state},{records:action.records});
+				return Object.assign({ ...state }, { records: action.records });
 			case ADD_RECORD:
-				return Object.assign({...state},{records:[...state.records,action.record]});
+				return Object.assign({ ...state }, { records: [...state.records, action.record] });
 			case DELETE_RECORD:
-				return Object.assign({...state},
-					{contactList:state.records.filter((record)=>record.id != action.recoredid)});
+				return Object.assign({ ...state },
+					{ contactList: state.records.filter((record) => record.id != action.recoredid) });
 			case DELETE_RECORDLIST:
-				let idset = new Set(action.recordlist.map((itm)=>itm.id));
-				return Object.assign({...state},
-					{contactList:state.records.filter((record)=>!idset.has(record.id))});
+				let idset = new Set(action.recordlist.map((itm) => itm.id));
+				return Object.assign({ ...state },
+					{ contactList: state.records.filter((record) => !idset.has(record.id)) });
 			default:
 				return state;
 		}
@@ -63,58 +75,62 @@ export default (initData)=>{
 }
 
 //初始化人员
-export const initUsers=(user,userList)=>{
-	return {type:INIT_USERS,user,userList}
+export const initUsers = (user, userList) => {
+	return { type: INIT_USERS, user, userList }
 }
 
 //用户登录
-export const userLogin=(user)=>{
-	return {type:USER_LOGIN,user}
+export const userLogin = (user) => {
+	return { type: USER_LOGIN, user }
 }
 
 //用户登出
-export const userLogout=()=>{
-	return {type:USER_LOGOUT}
+export const userLogout = () => {
+	return { type: USER_LOGOUT }
 }
 
 //用户注册
-export const userRegister=(user)=>{
-	return {type:USER_REGISTER,user}
+export const userRegister = (user) => {
+	return { type: USER_REGISTER, user }
 }
 
 //初始化联系人
-export const initContact=(contactList)=>{
-	return {type:INIT_CONTACT,contactList}
+export const initContact = (contactList) => {
+	return { type: INIT_CONTACT, contactList }
 }
 
 //选择联系人
-export const selectContact=(contact)=>{
-	return {type:SELECT_CONTACT,contact}
+export const selectContact = (contact) => {
+	return { type: SELECT_CONTACT, contact }
 }
 
 //新增联系人
-export const addContact=(contact)=>{
-	return {type:ADD_CONTACT,contact}
+export const addContact = (contact) => {
+	return { type: ADD_CONTACT, contact }
 }
 
 //删除联系人
-export const deleteContact=(contactid)=>{
-	return {type:DELETE_CONTACT,contactid}
+export const deleteContact = (contact) => {
+	return { type: DELETE_CONTACT, contact }
 }
 
 //初始化聊天记录
-export const initRecord=(records)=>{
-	return {type:INIT_RECORD,records}
+export const initRecord = (records) => {
+	return { type: INIT_RECORD, records }
 }
 //新增聊天记录
-export const addRecord=(record)=>{
-	return {type:ADD_RECORD,record}
+export const addRecord = (record) => {
+	return { type: ADD_RECORD, record }
 }
 //删除聊天记录
-export const deleteRecord=(recordid)=>{
-	return {type:DELETE_RECORD,recordid}
+export const deleteRecord = (recordid) => {
+	return { type: DELETE_RECORD, recordid }
 }
 //批量删除聊天记录
-export const deleteRecordList=(recordlist)=>{
-	return {type:DELETE_RECORDLIST,recordlist}
+export const deleteRecordList = (recordlist) => {
+	return { type: DELETE_RECORDLIST, recordlist }
+}
+
+export const addStranger=(contact)=>{
+	return { type: ADD_STRANGER, contact }
 }
