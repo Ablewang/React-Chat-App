@@ -26,7 +26,7 @@ class Login extends Component {
 		return (
 			<div className='g-login'>
 				<div className="login-wrapper">
-					<Header>登录/注册</Header>
+					<Header>登录</Header>
 					<Content>
 						<Form className='login-form' onSubmit={this.handleLogin}>
 							<Form.Item>

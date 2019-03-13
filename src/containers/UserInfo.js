@@ -9,13 +9,16 @@ class UserInfoContainer extends Component {
 	static propTypes = {
 		router: PropTypes.object
 	}
-	handleLoginClick() {
+	handleLogin() {
 		this.props.history.push({ pathname: '/login', state: '/' })
 	}
-	handleLogoutClick() {
+	handleRegister() {
+		this.props.history.push({ pathname: '/register', state: '/' })
+	}
+	handleLogout() {
 		this.props.onLogout();
 	}
-	handleAddContactClick() {
+	handleAddContact() {
 		console.log('AddContact')
 	}
 
@@ -23,9 +26,10 @@ class UserInfoContainer extends Component {
 		return (
 			<UserInfo
 				loginUser={this.props.loginUser}
-				onLogin={this.handleLoginClick.bind(this)}
-				onLogout={this.handleLogoutClick.bind(this)}
-				AddContact={this.handleAddContactClick.bind(this)}
+				onLogin={this.handleLogin.bind(this)}
+				onRegister={this.handleRegister.bind(this)}
+				onLogout={this.handleLogout.bind(this)}
+				AddContact={this.handleAddContact.bind(this)}
 			/>
 		)
 	}

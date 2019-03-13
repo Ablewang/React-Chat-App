@@ -35,11 +35,11 @@ export default class ContactList extends Component {
               title={item.username}
               description={item.lastMessasge}
             />
-            <div>
+            <div className='c-status'>
               <span>{item.online ? '在线' : '离线'}</span>
               <div className='c-action'>
-                {this.props.isStranger ? <Icon className='add' type="plus" title='添加好友' onClick={(e) => { this.handleAdd(e, item) }} /> : null}
-                <Icon className='delete' type="close" title='删除' onClick={(e) => { this.handleDelete(e, item) }} />
+                {this.props.isStranger ? <Icon className='add' type="user-add" title='添加好友' onClick={(e) => { this.handleAdd(e, item) }} /> : null}
+                <Icon className='delete' type="user-delete" title='删除' onClick={(e) => { this.handleDelete(e, item) }} />
               </div>
             </div>
           </List.Item>

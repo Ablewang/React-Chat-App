@@ -2,13 +2,15 @@ import React, { Component } from 'react'
 import { BrowserRouter, Route } from 'react-router-dom'
 import common from './common'
 import Login from './containers/Login'
+import Register from './containers/Register'
 import HomePage from './containers/HomePage'
 import 'antd/dist/antd.css'
 import './App.css'
 
 const pagePath = {
   homePage: '/',
-  login: '/Login'
+  login: '/Login',
+  register: '/Register'
 }
 class App extends Component {
   render() {
@@ -16,6 +18,7 @@ class App extends Component {
       <BrowserRouter>
         <div className="App">
           <Route path={pagePath.login} component={Login} />
+          <Route path={pagePath.register} component={Register} />
           <Route path={pagePath.homePage} component={HomePage} />
         </div>
       </BrowserRouter>
