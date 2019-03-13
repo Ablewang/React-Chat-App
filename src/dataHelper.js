@@ -17,6 +17,9 @@ export const createUser=(user)=>{
 }
 
 export const searchContact=(userid)=>{
+	return {contact:getContact(userid),stranger:getStranger(userid)}
+}
+export const getContact=(userid)=>{
 	let relation = data.userRelation.reduce((res,cur)=>{
 		cur.userId == userid && res.push(cur.contactId)
 		return res;
@@ -24,6 +27,19 @@ export const searchContact=(userid)=>{
 	return data.userList.filter((itm)=>{
 		return relation.indexOf(itm.id) >= 0
 	})
+}
+export const getStranger=(userid)=>{
+	let relation = data.userRelation.reduce((res,cur)=>{
+		cur.userId == userid && res.contact.add(cur.contactId) //自己的联系人
+		cur.contactId == userid && res.all.add(cur.userId)		//联系人有自己的用户
+		return res;
+	},{contact:new Set(),all:new Set()})
+	//去差值
+	let diff = new Set(Array.from(relation.all).filter((itm)=> !relation.contact.has(itm)))
+	return data.userList.filter((itm)=>{
+				return diff.has(itm.id)
+			})
+	
 }
 
 export const searchRecords=(userid,contactid)=>{

@@ -92,7 +92,19 @@
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-
+.g-contact-list .c-action{
+    height: 14px;
+    line-height: 14px;
+    text-align: right;
+}.g-contact-list .c-action > *{
+  cursor: pointer;
+}
+.g-contact-list .c-action .add{
+    color: #1890ff;
+}
+.g-contact-list .c-action .delete{
+    color: #ff1919;
+}
 .c-content-form{}
 .c-content-form .g-header{
   height: 65px;

@@ -1,100 +1,9 @@
 import React,{Component} from 'react'
 import {PropTypes} from 'prop-types'
 import {connect} from 'react-redux'
-import {List, message, Avatar, Spin,} from 'antd';
+import {List, message, Avatar, Spin,Icon} from 'antd';
 import photo from '../resource/images/photo.png'
 import underlinePhoto from '../resource/images/photo-underline.png'
-
-import reqwest from 'reqwest';
-
-import InfiniteScroll from 'react-infinite-scroller';
-
-const fakeDataUrl = 'https://randomuser.me/api/?results=5&inc=name,gender,email,nat&noinfo';
-
-class InfiniteListExample extends React.Component {
-  state = {
-    data: [],
-    loading: false,
-    hasMore: true,
-  }
-
-  componentDidMount() {
-    this.fetchData((res) => {
-      this.setState({
-        data: res.results,
-      });
-    });
-  }
-
-  fetchData = (callback) => {
-    reqwest({
-      url: fakeDataUrl,
-      type: 'json',
-      method: 'get',
-      contentType: 'application/json',
-      success: (res) => {
-        callback(res);
-      },
-    });
-  }
-
-  handleInfiniteOnLoad = () => {
-    let data = this.state.data;
-    this.setState({
-      loading: true,
-    });
-    if (data.length > 14) {
-      message.warning('Infinite List loaded all');
-      this.setState({
-        hasMore: false,
-        loading: false,
-      });
-      return;
-    }
-    this.fetchData((res) => {
-      data = data.concat(res.results);
-      this.setState({
-        data,
-        loading: false,
-      });
-    });
-  }
-
-  render() {
-    return (
-      <div className="demo-infinite-container" 
-          style={{ width: '100%' }}>
-        <InfiniteScroll
-          initialLoad={false}
-          pageStart={0}
-          loadMore={this.handleInfiniteOnLoad}
-          hasMore={!this.state.loading && this.state.hasMore}
-          useWindow={false}
-        >
-          <List
-            dataSource={this.state.data}
-            renderItem={item => (
-              <List.Item key={item.id}>
-                <List.Item.Meta
-                  avatar={<Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />}
-                  title={<a href="https://ant.design">{item.name.last}</a>}
-                  description={item.email}
-                />
-                <div>Content</div>
-              </List.Item>
-            )}
-          >
-            {this.state.loading && this.state.hasMore && (
-              <div className="demo-loading-container">
-                <Spin />
-              </div>
-            )}
-          </List>
-        </InfiniteScroll>
-      </div>
-    );
-  }
-}
 
 export default class ContactList extends Component{
 	constructor(){
@@ -103,6 +12,14 @@ export default class ContactList extends Component{
 	handleSelectContact=(id)=>{
     this.props.onSelect && this.props.onSelect(id);
 	}
+  handleAdd=(e,id)=>{
+    console.log(id)
+    e.stopPropagation()
+  }
+  handleDelete=(e,id)=>{
+    console.log(id)
+    e.stopPropagation()
+  }
 	render(){
     const current = this.props.current || {}
 		const list = this.props.contactList || []
@@ -120,7 +37,13 @@ export default class ContactList extends Component{
                   title={item.username}
                   description={item.lastMessasge}
                 />
-                <div>{item.online?'在线':'离线'}</div>
+                <div>
+                  <span>{item.online?'在线':'离线'}</span>
+                  <div className='c-action'>
+                    {this.props.isStranger ? <Icon className='add' type="plus" title='添加好友' onClick={(e)=>{this.handleAdd(e,item.id)}}/> : null}
+                    <Icon className='delete' type="close" title='删除'  onClick={(e)=>{this.handleDelete(e,item.id)}}/>
+                  </div>
+                </div>
               </List.Item>
             )}
           >

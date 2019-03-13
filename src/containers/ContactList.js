@@ -8,6 +8,7 @@ import {searchUser,searchRecords} from '../dataHelper'
 class ContactListContanier extends Component{
 	static propTypes={
 		loginUser:PropTypes.object,
+		strangerList:PropTypes.array,
 		contactList:PropTypes.array,
 		currentContact:PropTypes.object,
 		onSelectContact:PropTypes.func,
@@ -15,9 +16,6 @@ class ContactListContanier extends Component{
 	}
 	constructor(){
 		super();
-		this.state={
-			currentSelectId:-1
-		}
 	}
 	handleSelectContact=(id)=>{
 		const select = searchUser('id',id);
@@ -28,15 +26,20 @@ class ContactListContanier extends Component{
 		this.props.onInitRecord(records);
 	}
 	render(){
+		const contactList =this.props.isStranger?this.props.strangerList: this.props.contactList
 		const current = this.props.currentContact
 		return(
-          <ContactList current={this.props.currentContact} contactList={this.props.contactList} onSelect={this.handleSelectContact}/>
+          <ContactList current={this.props.currentContact} 
+			           contactList={contactList} 
+			           isStranger={this.props.isStranger}
+			           onSelect={this.handleSelectContact}/>
 		)
 	}
 }
 const mapStateToProps=(state)=>{
   return{
     loginUser:state.loginUser,
+    strangerList:state.strangerList,
     contactList:state.contactList,
     currentContact:state.currentContact
   }

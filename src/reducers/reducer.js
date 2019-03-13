@@ -20,6 +20,7 @@ export default (initData)=>{
 					loginUser:null,
 					userList:initData.userList||[],
 					contactList:[],
+					strangerList:[],
 					currentContact:null,
 					records:[]
 				}
@@ -34,11 +35,12 @@ export default (initData)=>{
 				})
 				return Object.assign({...state},{loginUser:u,userList:uList});
 			case USER_LOGOUT:
-				return Object.assign({...state},{loginUser:null,contactList:[],records:[]});
+				return Object.assign({...state},{loginUser:null,contactList:[],strangerList:[],records:[]});
 			case USER_REGISTER:
 				return Object.assign({...state},{loginUser:action.user,userList:[...state.userList,action.user]});
 			case INIT_CONTACT:
-				return Object.assign({...state},{contactList:action.contactList});
+				return Object.assign({...state},{contactList:action.contactList.contact,
+												 strangerList:action.contactList.stranger});
 			case ADD_CONTACT:
 				return Object.assign({...state},{contactList:[state.contactList,action.contact]});
 			case SELECT_CONTACT:

@@ -81,7 +81,14 @@ class HomePage extends Component{
 	              key="contact"
 	              title={<span><Icon type="user" /><span>联系人列表</span></span>}
 	            >
-	            <ContactList />
+	            	<ContactList />
+	            </SubMenu>
+	           <SubMenu
+	              className='menu-item'
+	              key="stranger"
+	              title={<span><Icon type="user" /><span>陌生人</span></span>}
+	            >
+	            	<ContactList isStranger='true'/>
 	            </SubMenu>
 	          </Menu>
 	        </Sider>
