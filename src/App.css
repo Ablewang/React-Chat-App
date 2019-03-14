@@ -203,10 +203,28 @@
   text-align: left;
 }
 
-.g-register{
+.form-register{
   width: 100%;
   height: 100%;
   background: #fff;
   position: fixed;
-  z-index: 99999;
+  z-index: 1;
+}
+.tab-register{
+  height: 100%;
+}
+.tab-register .ant-tabs-top-bar{
+  padding: 0 20px;
+  margin:0;
+}
+.tab-register .ant-tabs-content{
+  height: 100%;
+}
+.tab-register .tab-info{
+  height: 100%;
+  overflow: auto;
+}
+
+.user-select-list .selected{
+  border: 1px solid #198fff !important;
 }
