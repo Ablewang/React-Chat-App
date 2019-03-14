@@ -228,3 +228,6 @@
 .user-select-list .selected{
   border: 1px solid #198fff !important;
 }
+.user-select-modal{
+  z-index: 3;
+}

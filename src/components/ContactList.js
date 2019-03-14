@@ -1,7 +1,5 @@
 import React, { Component } from 'react'
-import { PropTypes } from 'prop-types'
-import { connect } from 'react-redux'
-import { List, message, Avatar, Icon } from 'antd';
+import { List, Avatar, Icon } from 'antd';
 import photo from '../resource/images/photo.png'
 import underlinePhoto from '../resource/images/photo-underline.png'
 

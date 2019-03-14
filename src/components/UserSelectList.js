@@ -32,11 +32,9 @@ class UserSelectList extends Component {
     })
   }
   render() {
-    const list = []
+    const list = data
     return (
-      <Row className='user-select-list'>
-        <Col span={4}></Col>
-        <Col span={16}>
+      <div>
           <Search onSearch={value=>this.handleSearch(value)} style={{ margin: '10px 0', width: '280px' }} />
           <List
             grid={{ gutter: 16, column: 4 }}
@@ -50,9 +48,7 @@ class UserSelectList extends Component {
               </List.Item>
             )}
           />
-        </Col>
-      </Row>
-
+      </div>
     )
   }
 }

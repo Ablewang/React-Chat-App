@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
-import UserSelectList from './UserSelectList'
+import UserSelectListModal from './UserSelectListModal'
 import EditableTable from './EditableTable'
 import {
-  Form, Select, InputNumber, Switch, Radio,
+  Form, Select, Input, InputNumber, Switch, Radio,
   Slider, Button, Upload, Icon, Rate, Checkbox,
-  Row, Col, Tabs
+  Row, Col, Tabs, Card
 } from 'antd';
 
 const { Option } = Select;
@@ -13,6 +13,17 @@ function callback(key) {
   console.log(key);
 }
 class Demo extends React.Component {
+  constructor() {
+    super()
+    this.state = { selectedUser: [],visibleUserSelectModal:false }
+  }
+  shouldComponentUpdate(){
+    console.log('shouldComponentUpdate')
+    return true
+  }
+  componentDidUpdate(){
+    console.log('componentDidUpdate')
+  }
   handleSubmit = (e) => {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
@@ -29,29 +40,91 @@ class Demo extends React.Component {
     }
     return e && e.fileList;
   }
+  validateToNextPassword = () => {
 
+  }
+  handleConfirmBlur = () => {
+
+  }
+  compareToFirstPassword = () => {
+
+  }
+  handleModalCancel = () => {
+    this.setState={
+      visibleUserSelectModal:false
+    }
+  }
+  handleModalOK = () => {
+
+  }
+  handleShowUserSelectModal(){
+    console.log(this)
+    this.setState={
+      visibleUserSelectModal:true
+    }
+  }
   render() {
     const { getFieldDecorator } = this.props.form;
     const formItemLayout = {
       labelCol: { span: 6 },
       wrapperCol: { span: 14 },
     };
-
-    const operations =
-      <Button type="primary" htmlType="submit">Submit</Button>
+    const selectedUser = this.state.selectedUser || []
     return (
-      <Form {...formItemLayout} onSubmit={this.handleSubmit} className='form-register'>>
-
-      <Tabs defaultActiveKey="1"
+      <div className="register-continer">
+        <Form {...formItemLayout} onSubmit={this.handleSubmit} className='form-register'>
+        <Tabs defaultActiveKey="1"
           onChange={callback}
-          tabBarExtraContent={operations}
+          tabBarExtraContent={<Button type="primary" htmlType="submit">Submit</Button>}
           className='tab-register'
         >
-          <TabPane tab="Tab 1" className='tab-info info' key="1">
-            <Form.Item
-              label="Plain Text"
-            >
+          <TabPane tab="基础信息" className='tab-info info' key="1">
+            <Form.Item label="账号ID">
               <span className="ant-form-text">China</span>
+            </Form.Item>
+            <Form.Item label="用户名">
+              {getFieldDecorator('username', { rules: [{ required: true, message: '请输入用户名' }] })
+                (<Input placeholder="用户名" />)
+              }
+            </Form.Item>
+            <Form.Item label="密码">
+              {getFieldDecorator('password', {
+                rules: [{
+                  required: true, message: '请输入密码'
+                }, {
+                  validator: this.validateToNextPassword
+                }]
+              })(
+                <Input type="password" onBlur={this.handleConfirmBlur} />
+              )
+              }
+            </Form.Item>
+            <Form.Item label="密码确认">
+              {getFieldDecorator('confirm', {
+                rules: [{
+                  required: true, message: "请再次输入密码"
+                }, {
+                  validator: this.compareToFirstPassword
+                }]
+              })(
+                <Input type="password" />
+              )}
+            </Form.Item>
+            <Form.Item label="性别">
+              {getFieldDecorator('sex')(
+                <Radio.Group>
+                  <Radio.Button value="man">男</Radio.Button>
+                  <Radio.Button value="female">女</Radio.Button>
+                </Radio.Group>
+              )}
+            </Form.Item>
+            <Form.Item label="好友预添加">
+              <Button type="primary" onClick={this.handleShowUserSelectModal.bind(this)}>选择</Button>
+              <div>
+                {selectedUser.map((item, i) => {
+                  return <Card title={item.username}>他什么都没留下</Card>
+                })}
+              </div>
             </Form.Item>
             <Form.Item
               label="Select"
@@ -206,18 +279,36 @@ class Demo extends React.Component {
               <Button type="primary" htmlType="submit">Submit</Button>
             </Form.Item>
           </TabPane>
-          <TabPane tab="Tab 2" className='tab-info target' key="2"><UserSelectList /></TabPane>
-          <TabPane tab="Tab 3" className='tab-info target' key="3"><EditableTable /></TabPane>
+          <TabPane tab="兴趣爱好" className='tab-info target' key="2">
+            <Row>
+              <Col span={4}></Col>
+              <Col span={16}>
+                <UserSelectListModal />
+              </Col>
+            </Row>
+          </TabPane>
+          <TabPane tab="兴趣爱好" className='tab-info target' key="3">
+            <Row>
+              <Col span={4}></Col>
+              <Col span={16}>
+                <EditableTable />
+              </Col>
+            </Row>
+          </TabPane>
         </Tabs>
-
       </Form>
+        <UserSelectListModal 
+          visible={this.state.visibleUserSelectModal}
+          onCancel={this.handleModalCancel}
+          onOk={this.handleModalOK}
+        />
+      </div>
     );
   }
 }
 
 
 const WrappedDemo = Form.create({ name: 'validate_other' })(Demo);
-
 
 class Register extends Component {
   render() {

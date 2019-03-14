@@ -110,58 +110,58 @@ class HomePage extends Component {
 	}
 }
 
-const getInitData = () => {
-	let userRelation = [];
-	let userList = [];
-	let loginUser = {
-		userid: -1,
-		username: '超级管理员',
-		online: true,
-	};
-	let records = [];
-	const random = parseInt(Math.random() * 50);
-	for (let i = 0; i < random; i++) {
-		userList.push({
-			id: i,
-			username: 'user' + i,
-			password: 'user' + i,
-			online: Math.random() > 0.4,
-			lastMessasge: ''
-		})
-	}
-	const content = ['啊哈哈哈哈', '呵呵呵呵呵呵', '内容内容内容内容内容', '啊asdf内容内容内容内容内容哈哈内容内容内容内容内容哈哈', '呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵', '内容内容内容内容内容', 'ReactReactReactReact 内容内容内容内容内容']
-	let date = +new Date();
-	for (let i = 0; i < random * 10; i++) {
-		let f = parseInt(Math.random() * random);
-		let temp = {
-			id: i,
-			userId: f,
-			contactId: getToId(f, random),
-			date: date + random * 1000
-		};
-		userRelation.push(temp);
-		date = temp.date;
-	}
-	date = +new Date();
-	for (let i = 0; i < random * 50; i++) {
-		let f = parseInt(Math.random() * random);
-		let temp = {
-			id: i,
-			from: f,
-			to: getToId(f, random),
-			content: content[parseInt(Math.random() * content.length)],
-			date: date + random * 1000
-		};
-		records.push(temp);
-		date = temp.date;
-	}
-	return { userList, userRelation, loginUser, records }
-}
+// const getInitData = () => {
+// 	let userRelation = [];
+// 	let userList = [];
+// 	let loginUser = {
+// 		userid: -1,
+// 		username: '超级管理员',
+// 		online: true,
+// 	};
+// 	let records = [];
+// 	const random = parseInt(Math.random() * 50);
+// 	for (let i = 0; i < random; i++) {
+// 		userList.push({
+// 			id: i,
+// 			username: 'user' + i,
+// 			password: 'user' + i,
+// 			online: Math.random() > 0.4,
+// 			lastMessasge: ''
+// 		})
+// 	}
+// 	const content = ['啊哈哈哈哈', '呵呵呵呵呵呵', '内容内容内容内容内容', '啊asdf内容内容内容内容内容哈哈内容内容内容内容内容哈哈', '呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵', '内容内容内容内容内容', 'ReactReactReactReact 内容内容内容内容内容']
+// 	let date = +new Date();
+// 	for (let i = 0; i < random * 10; i++) {
+// 		let f = parseInt(Math.random() * random);
+// 		let temp = {
+// 			id: i,
+// 			userId: f,
+// 			contactId: getToId(f, random),
+// 			date: date + random * 1000
+// 		};
+// 		userRelation.push(temp);
+// 		date = temp.date;
+// 	}
+// 	date = +new Date();
+// 	for (let i = 0; i < random * 50; i++) {
+// 		let f = parseInt(Math.random() * random);
+// 		let temp = {
+// 			id: i,
+// 			from: f,
+// 			to: getToId(f, random),
+// 			content: content[parseInt(Math.random() * content.length)],
+// 			date: date + random * 1000
+// 		};
+// 		records.push(temp);
+// 		date = temp.date;
+// 	}
+// 	return { userList, userRelation, loginUser, records }
+// }
 
-const getToId = (fromId, max) => {
-	let t = parseInt(Math.random() * max);
-	return t === fromId ? getToId(fromId, max) : t;
-}
+// const getToId = (fromId, max) => {
+// 	let t = parseInt(Math.random() * max);
+// 	return t === fromId ? getToId(fromId, max) : t;
+// }
 
 const mapStateToProps = (state) => {
 	return {
