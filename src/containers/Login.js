@@ -15,7 +15,7 @@ class LoginContiner extends Component {
 	handleLogin = (user) => {
 		const select = searchUser('username', user.username);
 		if (select) {
-			if (select.password != user.password) {
+			if (select.password !== user.password) {
 				return alert('密码错误');
 			}
 			Object.assign(user, select);

@@ -23,7 +23,7 @@ import {
   
   const EditableFormRow = Form.create()(EditableRow);
   
-  class EditableCell extends React.Component {
+  class EditableCell extends Component {
     getInput = () => {
       if (this.props.inputType === 'number') {
         return <InputNumber />;
@@ -101,7 +101,7 @@ import {
                     <EditableContext.Consumer>
                       {form => (
                         <a
-                          href="javascript:;"
+                          href="javascript:void(0);"
                           onClick={() => this.save(form, record.key)}
                           style={{ marginRight: 8 }}
                         >

@@ -225,9 +225,26 @@
   overflow: auto;
 }
 
-.user-select-list .selected{
-  border: 1px solid #198fff !important;
+.modal-wrapper{
+  width:80%;
+  height:80%;
+  overflow:hidden
 }
-.user-select-modal{
-  z-index: 3;
+.modal-wrapper .ant-modal-content{
+  height: 100%;
+}
+
+.user-list-continer{
+  height: 100%;
+}
+.user-list-continer .list-search{
+  padding-left:20px;
+}
+.user-list-continer .user-list{
+  padding: 0 20px;
+  height: calc(100% - 52px);
+  overflow: auto;
+}
+.user-list-continer .user-list .selected{
+  border: 1px solid #198fff !important;
 }

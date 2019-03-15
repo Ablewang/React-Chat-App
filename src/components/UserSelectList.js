@@ -1,21 +1,6 @@
 import React, { Component } from 'react'
-import { Row, Col, List, Card, Input } from 'antd';
+import {  List, Card, Input } from 'antd';
 const Search = Input.Search
-const data = [
-  {
-    title: 'Title 1',
-  },
-  {
-    title: 'Title 2',
-  },
-  {
-    title: 'Title 3',
-  },
-  {
-    title: 'Title 4',
-  },
-];
-
 class UserSelectList extends Component {
   constructor(){
     super()
@@ -32,19 +17,20 @@ class UserSelectList extends Component {
     })
   }
   render() {
-    const list = data
+    const list = this.props.list || []
     return (
-      <div>
-          <Search onSearch={value=>this.handleSearch(value)} style={{ margin: '10px 0', width: '280px' }} />
+      <div className="user-list-continer">
+          <Search className="list-search" onSearch={value=>this.handleSearch(value)} style={{ margin: '10px 0', width: '280px' }} />
           <List
+            className="user-list"
             grid={{ gutter: 16, column: 4 }}
             dataSource={list}
             renderItem={(item,i) => (
               <List.Item>
-                <Card title={item.title} 
+                <Card title={item.online ? "在线" : "离线"} 
                       hoverable 
                       className={this.state.selected.has(i) ? 'selected' : ''}
-                      onClick={()=>{this.handleClickCard(i)}}>Card content</Card>
+                      onClick={()=>{this.handleClickCard(i)}}>{item.username}</Card>
               </List.Item>
             )}
           />

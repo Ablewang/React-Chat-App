@@ -31,7 +31,7 @@ class ContactListContanier extends Component {
 		this.props.onInitRecord(records);
 	}
 	handleOnAddContact = (contact) => {
-		let relation = createRelation(this.props.loginUser.id, contact.id)
+		createRelation(this.props.loginUser.id, contact.id)
 		this.props.onAddContact(contact)
 	}
 	handleOnDeleteContact = (contact) => {
@@ -45,7 +45,7 @@ class ContactListContanier extends Component {
 			rel && this.props.onAddStranger(this.state.onDeleteContact)
 		}
 		console.log(this)
-		if(this.props.currentContact && this.state.onDeleteContact.id == this.props.currentContact.id){
+		if(this.props.currentContact && this.state.onDeleteContact.id === this.props.currentContact.id){
 			this.props.onSelectContact(null)
 			this.props.onInitRecord([])
 		}
@@ -56,7 +56,6 @@ class ContactListContanier extends Component {
 	}
 	render() {
 		const contactList = this.props.isStranger ? this.props.strangerList : this.props.contactList
-		const current = this.props.currentContact
 		return (
 			<div>
 				<ContactList current={this.props.currentContact}

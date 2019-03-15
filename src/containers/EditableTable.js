@@ -12,4 +12,4 @@ class UserSelectListContiner extends Component{
     }
 }
 
-export default EditableTable
+export default UserSelectListContiner

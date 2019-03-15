@@ -32,7 +32,7 @@ export default (initData) => {
 			case USER_LOGIN:
 				let u = { ...action.user, online: true }
 				let uList = state.userList.map((item) => {
-					return item.id == u.id ? u : item
+					return item.id === u.id ? u : item
 				})
 				return Object.assign({ ...state }, { loginUser: u, userList: uList });
 			case USER_LOGOUT:
@@ -48,8 +48,7 @@ export default (initData) => {
 				return Object.assign({ ...state }, { contactList: [...state.contactList, action.contact] });
 			case DELETE_CONTACT:
 				let assignObj = {}
-				let contact = null
-				let list = (action.contact.isStranger ? state.strangerList : state.contactList).filter((itm) => itm.id != action.contact.id)
+				let list = (action.contact.isStranger ? state.strangerList : state.contactList).filter((itm) => itm.id !== action.contact.id)
 				let pname = action.contact.isStranger ? 'strangerList' : 'contactList'
 				assignObj[pname] = list
 				return Object.assign({ ...state }, assignObj);
@@ -63,7 +62,7 @@ export default (initData) => {
 				return Object.assign({ ...state }, { records: [...state.records, action.record] });
 			case DELETE_RECORD:
 				return Object.assign({ ...state },
-					{ contactList: state.records.filter((record) => record.id != action.recoredid) });
+					{ contactList: state.records.filter((record) => record.id !== action.recoredid) });
 			case DELETE_RECORDLIST:
 				let idset = new Set(action.recordlist.map((itm) => itm.id));
 				return Object.assign({ ...state },

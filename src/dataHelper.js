@@ -3,8 +3,12 @@ export default (initData) => {
 	Object.assign(data, initData);
 	return data;
 }
-export const searchUser = (prop, value) => {
-	return data.userList.find((user) => user[prop] == value);
+export const searchUser = (prop, value, isFuzzy) => {
+	let res = searchUserList(prop, value, isFuzzy)
+	return res && res.length ? res[0] : null
+}
+export const searchUserList = (prop, value, isFuzzy) => {
+	return data.userList.filter((user) => (!isFuzzy ? user[prop] === value : user[prop].indexOf(value) >= 0));
 }
 export const createUser = (user) => {
 	let max = -1;
@@ -21,7 +25,7 @@ export const searchContact = (userid) => {
 }
 export const getContact = (userid) => {
 	let relation = data.userRelation.reduce((res, cur) => {
-		cur.userId == userid && res.push(cur.contactId)
+		cur.userId === userid && res.push(cur.contactId)
 		return res;
 	}, [])
 	return data.userList.filter((itm) => {
@@ -30,8 +34,8 @@ export const getContact = (userid) => {
 }
 export const getStranger = (userid) => {
 	let relation = data.userRelation.reduce((res, cur) => {
-		cur.userId == userid && res.contact.add(cur.contactId) //自己的联系人
-		cur.contactId == userid && res.all.add(cur.userId)		//联系人有自己的用户
+		cur.userId === userid && res.contact.add(cur.contactId) //自己的联系人
+		cur.contactId === userid && res.all.add(cur.userId)		//联系人有自己的用户
 		return res;
 	}, { contact: new Set(), all: new Set() })
 	//去差值
@@ -44,8 +48,8 @@ export const getStranger = (userid) => {
 
 export const searchRecords = (userid, contactid) => {
 	return data.records.filter((itm) => {
-		return (itm.from == userid && itm.to == contactid)
-			|| (itm.to == userid && itm.from == contactid)
+		return (itm.from === userid && itm.to === contactid)
+			|| (itm.to === userid && itm.from === contactid)
 	})
 }
 
@@ -66,7 +70,7 @@ export const createRecord = (f, t, content) => {
 }
 
 export const getRelation = (userid, contactid) => {
-	return data.userRelation.filter((itm)=> itm.userId == userid && itm.contactId ==contactid)
+	return data.userRelation.filter((itm)=> itm.userId === userid && itm.contactId ===contactid)
 }
 export const createRelation = (userid, contactid) => {
 	let max = -1;
@@ -84,8 +88,8 @@ export const createRelation = (userid, contactid) => {
 }
 export const deleteRelation = (userid, contactid, isStranger) => {
 	data.userRelation = data.userRelation.filter((itm)=>{
-		return !isStranger ? (itm.userId != userid || itm.contactId != contactid)
-							: (itm.userId != contactid || itm.contactId != userid)
+		return !isStranger ? (itm.userId !== userid || itm.contactId !== contactid)
+							: (itm.userId !== contactid || itm.contactId !== userid)
 	})
 }
 

@@ -21,7 +21,7 @@ export default class ChatPanel extends Component {
 		const loginUser = this.props.loginUser || {};
 		return (
 			<div className='g-chat-panel' ref='chatPanel'>
-				{records.map((itm, i) => <Record record={{ ...itm, maine: itm.from == loginUser.id }} index={i} key={i} />)}
+				{records.map((itm, i) => <Record record={{ ...itm, maine: itm.from === loginUser.id }} index={i} key={i} />)}
 			</div>
 		)
 	}
