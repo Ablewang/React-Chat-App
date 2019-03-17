@@ -7,7 +7,7 @@ class UserSelectListModal extends Component{
         super()
         this.state={
             userSearchResult:[],
-            userSelected:[]}
+            selectedList:new Set()}
     }
     handleSearch=(value)=>{
         console.log(value)
@@ -16,8 +16,11 @@ class UserSelectListModal extends Component{
             userSearchResult:list
         })
     }
+    handleClickItem=(id, select)=>{
+        select ? this.state.selectedList.add(id) : this.state.selectedList.delete(id)
+    }
     render(){
-        const {visible,onCancel,onOk} = this.props
+        const {visible,onCancel,onOk,currentSelected} = this.props
         return(
             <Modal
                 visible={visible}
@@ -25,12 +28,16 @@ class UserSelectListModal extends Component{
                 okText="确定"
                 cancelText="关闭"
                 onCancel={onCancel}
-                onOk={onOk}
+                onOk={()=>{onOk && onOk(this.state.selectedList)}}
                 width="80%"
                 className="modal-wrapper"
                 bodyStyle={{width:'80',height:'calc(100% - 108px)',padding:0,overflow:'auto'}}
             >
-                <UserSelectList list={this.state.userSearchResult} onSearch={this.handleSearch} />
+                <UserSelectList
+                    currentSelected={currentSelected} 
+                    list={this.state.userSearchResult} 
+                    onClickItem={this.handleClickItem} 
+                    onSearch={this.handleSearch} />
             </Modal>
         )
     }

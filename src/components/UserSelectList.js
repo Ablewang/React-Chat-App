@@ -10,14 +10,18 @@ class UserSelectList extends Component {
     if(!value || !value.length) return
     this.props.onSearch && this.props.onSearch(value)
   }
-  handleClickCard=(index)=>{
-    this.state.selected.has(index) ? this.state.selected.delete(index) : this.state.selected.add(index)
+  handleClickCard=(id)=>{
+    const selected = this.state.selected.has(id)
+    selected ? this.state.selected.delete(id) : this.state.selected.add(id)
     this.setState({
       selected:this.state.selected
     })
+    this.props.onClickItem && this.props.onClickItem(id, !selected)
   }
   render() {
     const list = this.props.list || []
+    const currentSelected = this.props.currentSelected || []
+    const curSelectedSet = new Set(currentSelected.map((itm)=> itm.id))
     return (
       <div className="user-list-continer">
           <Search className="list-search" onSearch={value=>this.handleSearch(value)} style={{ margin: '10px 0', width: '280px' }} />
@@ -29,8 +33,11 @@ class UserSelectList extends Component {
               <List.Item>
                 <Card title={item.online ? "在线" : "离线"} 
                       hoverable 
-                      className={this.state.selected.has(i) ? 'selected' : ''}
-                      onClick={()=>{this.handleClickCard(i)}}>{item.username}</Card>
+                      className={this.state.selected.has(item.id) || curSelectedSet.has(item.id) ? 'selected' : ''}
+                      onClick={()=>{this.handleClickCard(item.id)}}
+                >
+                  {item.username}
+                </Card>
               </List.Item>
             )}
           />

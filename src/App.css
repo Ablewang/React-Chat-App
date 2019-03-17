@@ -218,7 +218,7 @@
   margin:0;
 }
 .tab-register .ant-tabs-content{
-  height: 100%;
+  height: calc(100% - 44px);
 }
 .tab-register .tab-info{
   height: 100%;

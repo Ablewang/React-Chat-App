@@ -7,6 +7,7 @@ import App from './App';
 import initData from './dataHelper'
 import reducerCreator from './reducers/reducer'
 import data from './resource/data/data.json'
+import './common'
 initData(data)
 let r = data.userRelation.reduce((res,itm)=>{
 	let arr = data.userRelation.filter((i)=>{

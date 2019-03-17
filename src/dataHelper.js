@@ -10,6 +10,9 @@ export const searchUser = (prop, value, isFuzzy) => {
 export const searchUserList = (prop, value, isFuzzy) => {
 	return data.userList.filter((user) => (!isFuzzy ? user[prop] === value : user[prop].indexOf(value) >= 0));
 }
+export const searchUserByFunc=(func)=>{
+	return data.userList.filter(user => func(user))
+}
 export const createUser = (user) => {
 	let max = -1;
 	data.userList.forEach((u) => {
@@ -93,3 +96,15 @@ export const deleteRelation = (userid, contactid, isStranger) => {
 	})
 }
 
+export const getGoal=(userid)=>{
+	const data = []
+	for (let i = 0; i < 100; i++) {
+	  data.push({
+		key: i.toString(),
+		goal: `目标 ${i}`,
+		price: `${parseInt(i * Math.random() * 100 )}`,
+		endline:(new Date()).Format('yyyy-MM-dd'),
+	  });
+	}
+	return data
+}
