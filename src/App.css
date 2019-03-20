@@ -178,10 +178,22 @@
 }
 
 .g-chat-panel{
-  padding:0 10px;
   height: calc(100% - 120px);
-  overflow: auto;
+  overflow: hidden;
   width: 100%;
+}
+.g-chat-panel .record-scroll-bar{
+  float: right;
+  width: 17px;
+  background: #fff;
+  height: 100%;
+  overflow: auto;
+}
+.g-chat-panel .records-continer{
+  width: calc(100% - 18px);
+  height: 100%;
+  overflow: hidden;
+  padding: 0 10px;
 }
 .g-chat-panel .chat-record{
   margin-bottom: 8px;

@@ -27,7 +27,6 @@ class ContactListContanier extends Component {
 		if (!select) { return alert('用户信息有误'); }
 		this.props.onSelectContact(select);
 		const records = searchRecords(this.props.loginUser.id, select.id)
-		console.log(records)
 		this.props.onInitRecord(records);
 	}
 	handleOnAddContact = (contact) => {
@@ -63,7 +62,8 @@ class ContactListContanier extends Component {
 					isStranger={this.props.isStranger}
 					onSelect={this.handleSelectContact}
 					onAddContact={this.handleOnAddContact}
-					onDeleteContact={this.handleOnDeleteContact} />
+					onDeleteContact={this.handleOnDeleteContact} 
+				/>
 				<Modal title={`${this.props.isStranger ? '黑名单' : '联系人'}删除确认`}
 					mask={false}
 					centered

@@ -43,7 +43,7 @@ class HomePage extends Component {
 		if (userid && userid.length) {
 			let user = searchUser('id', userid);
 			if (user) {
-				this.props.onInitContact(searchContact(userid))
+				this.props.onInitContact(searchContact(user.id))
 				this.props.onLogin(user);
 			} else {
 				this._removeLocalStorage('usrid')
